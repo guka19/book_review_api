@@ -41,17 +41,16 @@ module.exports = {
       res.status(500).json(error);
     }
   },
-
   login: async (req, res) => {
     try {
       const user = await userModel.findOne({
         userName: req.body.userName,
       });
-
+  
       if (!user) {
-        res.status(404).json({ message: "user_not_found" });
+        return res.status(404).json({ message: "user_not_found" });
       }
-
+  
       if (bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign(
           {
@@ -63,18 +62,18 @@ module.exports = {
           },
           process.env.SECRET_KEY
         );
-
-        res.status(200).json({ token });
+  
+        return res.status(200).json({ token });
       } else {
         return res.status(401).json({
-          message: "user_not_found",
+          message: "Invalid password.",
         });
       }
     } catch (error) {
       res.status(500).json(error);
       console.log(error);
     }
-  },
+  },  
 
   updateUser: async (req, res) => {
     try {
