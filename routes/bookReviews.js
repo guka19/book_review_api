@@ -10,5 +10,8 @@ router.post("/add", bookReviewService.add);
 router.delete("/:id", bookReviewService.delete);
 router.put("/:id", bookReviewService.update);
 router.get("/getAllByAuthorId/:reviewAuthorId", bookReviewService.getAllByAuthorId);
+router.post("/:reviewId/comments", bookReviewService.addCommentToReview);
+router.get("/:reviewId/withComments", bookReviewService.getReviewWithComments);
+router.put("/:reviewId/likeCount", bookReviewService.updateLikeCount);
 
 module.exports = router;
