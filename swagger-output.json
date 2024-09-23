@@ -1,0 +1,326 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Book Review API",
+    "description": "This API allows users to interact with book reviews, users, and image uploads."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "description": "Register a new user.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": { "type": "string", "example": "JohnDoe" },
+                "password": { "type": "string", "example": "password123" },
+                "profilePicture": { "type": "string", "example": "profilePic.jpg" },
+                "bio": { "type": "string", "example": "I love reading books." }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "User created." },
+          "409": { "description": "User already exists." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "description": "Log in an existing user.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": { "type": "string", "example": "JohnDoe" },
+                "password": { "type": "string", "example": "password123" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Login successful." },
+          "401": { "description": "Invalid password." },
+          "404": { "description": "User not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/users/update": {
+      "put": {
+        "description": "Update the details of the logged-in user.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": { "type": "string", "example": "JohnDoe" },
+                "bio": { "type": "string", "example": "Updated bio." },
+                "profilePicture": { "type": "string", "example": "newProfilePic.jpg" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "User updated." },
+          "403": { "description": "Access denied." },
+          "404": { "description": "User not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/users/delete": {
+      "delete": {
+        "description": "Delete the logged-in user.",
+        "responses": {
+          "200": { "description": "User deleted." },
+          "403": { "description": "Access denied." },
+          "404": { "description": "User not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/reviews/search": {
+      "post": {
+        "description": "Search for reviews based on reviewTitle, bookTitle, bookAuthor, or bookGenre.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "reviewTitle": { "type": "string", "example": "Great book" },
+                "bookTitle": { "type": "string", "example": "The Great Gatsby" },
+                "bookAuthor": { "type": "string", "example": "F. Scott Fitzgerald" },
+                "bookGenre": { "type": "string", "example": "Fiction" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Search results." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/reviews/getLatest": {
+      "get": {
+        "description": "Get the latest reviews.",
+        "responses": {
+          "200": { "description": "Returns the latest reviews." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/reviews/getAll": {
+      "get": {
+        "description": "Get all reviews.",
+        "responses": {
+          "200": { "description": "Returns all reviews." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/reviews/{id}": {
+      "get": {
+        "description": "Get a review by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Review found." },
+          "404": { "description": "Review not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "put": {
+        "description": "Update a review by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "reviewTitle": { "type": "string", "example": "Updated Title" },
+                "reviewDescription": { "type": "string", "example": "Updated description" },
+                "reviewRating": { "type": "number", "example": 4 },
+                "reviewLikeCount": { "type": "number", "example": 10 },
+                "bookTitle": { "type": "string", "example": "Updated Book Title" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Review updated." },
+          "404": { "description": "Review not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "delete": {
+        "description": "Delete a review by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Review deleted." },
+          "404": { "description": "Review not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/reviews/{reviewId}/comments": {
+      "post": {
+        "description": "Add a comment to a review. Authentication required.",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "authorId": { "type": "string", "example": "5f8d0d55b54764421b7156a9" },
+                "content": { "type": "string", "example": "This is a great review!" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Comment added." },
+          "500": { "description": "Internal Server Error." }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reviews/{reviewId}/withComments": {
+      "get": {
+        "description": "Get a review along with its comments.",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Review with comments." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/reviews/{reviewId}/likeCount": {
+      "put": {
+        "description": "Update the like count for a review. Authentication required.",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "increment": { "type": "boolean", "example": true }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Like count updated." },
+          "404": { "description": "Review not found." },
+          "500": { "description": "Internal Server Error." }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "description": "ID of the comment author" },
+        "content": { "type": "string", "description": "Content of the comment" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp of comment creation" }
+      }
+    },
+    "BookReview": {
+      "type": "object",
+      "properties": {
+        "reviewAuthorId": { "type": "string", "description": "ID of the review author" },
+        "reviewTitle": { "type": "string", "description": "Title of the review" },
+        "reviewDescription": { "type": "string", "description": "Description of the review" },
+        "reviewComments": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Comment" },
+          "description": "List of comments associated with this review"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter your Bearer token"
+    }
+  }
+}

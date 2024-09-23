@@ -9,6 +9,9 @@ var usersRouter = require('./routes/users');
 const uploadRouter = require("./routes/upload");
 const bookReviewRouter = require("./routes/bookReviews");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require('./swagger-output.json');
+
 var app = express();
 
 // view engine setup
@@ -20,6 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
