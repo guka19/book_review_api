@@ -13,6 +13,11 @@ const userSchema = new mongoose.Schema(
       required: false,
     },
 
+    dob: {
+      type: Date,
+      required: true
+    },
+
     bio: {
       type: String,
       required: false,

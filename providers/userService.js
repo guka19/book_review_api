@@ -20,6 +20,7 @@ module.exports = {
       const newUser = await new userModel({
         userName: req.body.userName,
         profilePicture: req.body.profilePicture,
+        dob: req.body.dob,
         bio: req.body.bio,
         password: hashedPassword,
         role: "user",
@@ -30,6 +31,7 @@ module.exports = {
           id: newUser._id,
           userName: newUser.userName,
           profilePicture: newUser.profilePicture,
+          dob: newUser.dob,
           bio: newUser.bio,
           role: newUser.role,
         },
@@ -57,6 +59,7 @@ module.exports = {
             id: user._id,
             userName: user.userName,
             profilePicture: user.profilePicture,
+            dob: user.dob,
             bio: user.bio,
             role: user.role,
           },
